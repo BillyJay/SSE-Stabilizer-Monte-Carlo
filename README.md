@@ -10,5 +10,3 @@ The total number of Monte Carlo cycles can be set in line 219 by modifying the `
 
 ### Exact diagonalization code
 The file TFI_ED_Notebook.ipynb is a Jupyter Notebook containing the exact diagonalization results of the TFI model. CNOT_ED.py is the exact diagonalization code for the CNOT model.
-
-Please cite the paper if you are using the code.
