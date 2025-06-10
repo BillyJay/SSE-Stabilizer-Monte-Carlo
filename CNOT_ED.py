@@ -9,19 +9,19 @@ import pickle
 np.set_printoptions(threshold=sys.maxsize)
 
 
-"""
-Set Parameters: expansion order L, external field h
-"""
+######################################################
+# Set Parameters: expansion order L, external field h
+######################################################
 
 N = 3
 h = 4.0
 
 
-"""
-X_i, Z_i are Pauli operators on site i 
-e.g. X_i = I⨂..⨂I⨂X⨂I⨂... with the i-th tensor factor being X = 2x2 Pauli X operator
-I is the identity operator
-"""
+######################################################
+# X_i, Z_i are Pauli operators on site i 
+# e.g. X_i = I⨂..⨂I⨂X⨂I⨂... with the i-th tensor factor being X = 2x2 Pauli X operator
+# I is the identity operator
+######################################################
 X = [np.eye(1) for _ in range(N)]
 Z = [np.eye(1) for _ in range(N)]
 
@@ -38,9 +38,9 @@ for n in range(N):
             Z[n] = np.kron(Z[n], np.eye(2))
 
 
-"""
-Next we define the controlled X operation CX
-"""
+######################################################
+# Next we define the controlled X operation CX
+######################################################
 
 CX = [0 for _ in range(N)]
 for i in range(N - 1):
@@ -52,17 +52,17 @@ CX[N - 1] = (np.eye(2**N) + Z[N - 1]) / 2.0 + np.matmul(
 )
 
 
-"""
-Finally, we need (X+I)/2 operator
-"""
+######################################################
+# Finally, we need (X+I)/2 operator
+######################################################
 Xmod = [0 for _ in range(N)]
 for i in range(N):
     Xmod[i] = (np.eye(2**N) + X[i]) / 2.0
 
 
-"""
-Construct Hamiltonian H
-"""
+#########################
+#Construct Hamiltonian H
+#########################
 
 
 H = np.zeros((2**N, 2**N))
@@ -75,9 +75,9 @@ evals, _ = LA.eig(H)
 
 beta = symbols('beta')
 
-"""
-Expansion order L = infinity
-"""
+##############################
+# Expansion order L = infinity
+##############################
 f = sum([exp(-E * beta) for E in evals])
 En_fct = diff(-log(f),beta)
 E_avg = [En_fct.subs(beta,1.0/Tvals) for Tvals in np.linspace(0.01,10,1000)]
@@ -85,9 +85,9 @@ E_avg = [En_fct.subs(beta,1.0/Tvals) for Tvals in np.linspace(0.01,10,1000)]
 plt.plot(np.linspace(0.01,10,1000),E_avg)
 
 
-"""
-Expansion to finite order beta**L
-"""
+####################################
+# Expansion to finite order beta**L
+####################################
 L_list = [10,20,30,40]
 plot_data = []
 for L in L_list:
@@ -100,9 +100,9 @@ for L in L_list:
 plt.savefig("Mean_Energy_vs_T.pdf")
 
 
-"""
-plot_data_file stores all the plot data for L=10,20,30,40
-"""
+############################################################
+# plot_data_file stores all the plot data for L=10,20,30,40
+############################################################
 
 plot_data_file = open('plot_data','ab')
 pickle.dump(plot_data,plot_data_file)
